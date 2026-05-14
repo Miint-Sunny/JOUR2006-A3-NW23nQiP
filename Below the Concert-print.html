@@ -1,0 +1,1157 @@
+<!DOCTYPE html><html lang="en" data-immersive-translate-page-theme="light"><head>
+
+
+<meta charset="utf-8">
+<title>Below the Concert — A VTuber Zine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Caveat:wght@500;700&amp;family=VT323&amp;family=Mochiy+Pop+One&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-app:#f4d4de;          /* outside the page (screen viewing) */
+    --bg-page:#fff6f8;         /* page surface */
+    --bg-soft:#ffe8ee;
+    --pink-50:#fff0f5;
+    --pink-100:#ffe1ea;
+    --pink-200:#ffcad9;
+    --pink-300:#ffa8c0;
+    --pink-400:#ff86a8;
+    --pink-500:#ff6b96;        /* primary */
+    --pink-600:#ec4d7c;
+    --pink-700:#c73e6a;
+    --pink-900:#7a2848;
+    --ink:#2a1f26;
+    --ink-2:#6b5a62;
+    --ink-3:#a7959d;
+    --mint:#9ee2cf;
+    --sun:#ffd566;
+    --shadow:0 6px 0 #ffc6d6, 0 18px 40px -16px rgba(231,77,120,.45);
+    --pixel-dark:#3a2330;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1200px 600px at 20% -10%, #ffd9e3 0%, transparent 55%),
+      radial-gradient(1000px 500px at 110% 30%, #ffe3ea 0%, transparent 50%),
+      var(--bg-app);
+    font-family:'Plus Jakarta Sans', system-ui, sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    padding:40px 0 80px;
+  }
+
+  /* ===========================================================
+     A4 PAGE FRAME
+     =========================================================== */
+  .page{
+    width:210mm;
+    height:297mm;
+    margin:0 auto 32px;
+    background:var(--bg-page);
+    position:relative;
+    overflow:hidden;
+    box-shadow: 0 30px 60px -30px rgba(199,62,106,.5), 0 0 0 1px #ffd0dd;
+    border-radius:6px;
+    color:var(--ink);
+    page-break-after:always;
+    break-after:page;
+  }
+  .page:last-child{page-break-after:auto}
+
+  /* Subtle dot grid background on every page */
+  .page::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image: radial-gradient(rgba(255,107,150,.10) 1px, transparent 1.4px);
+    background-size: 14px 14px;
+    background-position: 0 0;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* Window chrome header */
+  .winbar{
+    position:absolute; top:0; left:0; right:0;
+    height:34px;
+    background:linear-gradient(180deg,#ffd1de 0%, #ffb8cd 100%);
+    border-bottom:2px solid #ec4d7c;
+    display:flex; align-items:center; gap:10px;
+    padding:0 14px 0 18px;
+    z-index:5;
+  }
+  .winbar .dot{ width:10px; height:10px; border-radius:50%; box-shadow: inset 0 -2px 0 rgba(0,0,0,.15)}
+  .dot.red{background:#ff6b6b}
+  .dot.yellow{background:#ffd566}
+  .dot.green{background:#92e3a9}
+  .winbar .title{
+    font-family:'VT323', monospace;
+    color:#7a2848;
+    font-size:19px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    margin-left:6px;
+  }
+  .winbar .right{
+    margin-left:auto;
+    display:flex; gap:8px;
+    color:#7a2848;
+    font-family:'VT323', monospace;
+    font-size:18px;
+    align-items:center;
+  }
+  .winbar .pixbtn{
+    width:22px;height:18px;background:#fff; border:2px solid #7a2848;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-family:'VT323', monospace; line-height:1; color:#7a2848;
+    image-rendering:pixelated;
+  }
+
+  /* Bottom LIVE STREAM bar */
+  .livebar{
+    position:absolute; left:0; right:0; bottom:0;
+    height:54px;
+    background:#fff;
+    border-top:3px solid var(--pink-500);
+    display:flex; align-items:stretch;
+    z-index:5;
+    font-family:'VT323', monospace;
+    color:#7a2848;
+  }
+  .livebar .rec{
+    display:flex; align-items:center; gap:8px;
+    padding: 0 16px;
+    border-right:2px dashed #ffc6d6;
+    font-size:18px;
+    letter-spacing:.08em;
+  }
+  .livebar .rec .dotred{
+    width:10px; height:10px; border-radius:50%;
+    background:#ff3b62;
+    box-shadow:0 0 0 3px #ffd0dd;
+    animation: pulse 1.4s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1}
+    50%{opacity:.35}
+  }
+  .livebar .meta{
+    display:flex; align-items:center; gap:10px;
+    padding:0 14px;
+    font-size:16px;
+    color:#a05872;
+    flex:1;
+    border-right:2px dashed #ffc6d6;
+  }
+  .livebar .meta .chip{
+    display:inline-block;
+    padding:3px 8px;
+    background:#fff0f5;
+    border:2px solid #ffb8cd;
+    color:#7a2848;
+    font-size:13px;
+  }
+  .livebar .progress{
+    flex:1;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:0 14px;
+    gap:4px;
+    border-right:2px dashed #ffc6d6;
+  }
+  .livebar .progress .label{font-size:13px; color:#a05872; letter-spacing:.06em}
+  .livebar .progress .track{
+    height:8px; background:#ffe1ea; border:1px solid #ffb8cd; position:relative;
+  }
+  .livebar .progress .track i{
+    position:absolute; left:0; top:0; bottom:0;
+    background:repeating-linear-gradient(45deg,#ff6b96,#ff6b96 6px,#ec4d7c 6px,#ec4d7c 12px);
+  }
+  .livebar .pageno{
+    width:110px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--pink-500);
+    color:#fff;
+    font-family:'Mochiy Pop One', system-ui;
+    font-size:22px;
+    letter-spacing:.04em;
+  }
+
+  /* CONTENT BLOCK */
+  .body{
+    position:absolute;
+    top:60px; bottom:74px; left:22mm; right:22mm;
+    z-index:2;
+    display:flex; flex-direction:column;
+  }
+
+  /* Typography */
+  h1.hero{
+    font-family:'Mochiy Pop One', system-ui;
+    font-weight:400;
+    color:var(--pink-700);
+    font-size:62px;
+    line-height:1.02;
+    letter-spacing:-0.01em;
+    margin:0;
+    text-wrap:balance;
+  }
+  h1.hero .pink{color:var(--pink-500)}
+  h1.hero em{
+    font-style:normal;
+    background:linear-gradient(180deg, transparent 62%, #ffd566 62%, #ffd566 92%, transparent 92%);
+    padding:0 4px;
+  }
+
+  h2.section{
+    font-family:'Mochiy Pop One', system-ui;
+    font-weight:400;
+    color:var(--pink-700);
+    font-size:30px;
+    line-height:1.1;
+    margin:0 0 6px;
+  }
+  .section-kicker{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'VT323', monospace;
+    font-size:18px;
+    color:#fff;
+    background:var(--pink-500);
+    padding:3px 10px 4px;
+    letter-spacing:.08em;
+    margin-bottom:10px;
+    text-transform:uppercase;
+  }
+  .section-kicker::before{
+    content:"▍";
+    color:#ffd566;
+  }
+  p{
+    font-size:10.7pt;
+    line-height:1.62;
+    margin:0 0 10pt;
+    color:var(--ink);
+    text-wrap:pretty;
+  }
+  p.lede{
+    font-size:13pt;
+    line-height:1.55;
+    color:#3a2330;
+    font-weight:500;
+  }
+  .dropcap::first-letter{
+    font-family:'Mochiy Pop One', system-ui;
+    color:var(--pink-600);
+    font-size:54px;
+    line-height:0.9;
+    float:left;
+    padding:6px 10px 0 0;
+  }
+
+  /* Cards / chrome on body */
+  .quote{
+    position:relative;
+    background:#fff;
+    border:3px solid var(--pink-500);
+    padding:18px 22px 16px;
+    margin:10px 0 14px;
+    box-shadow: 6px 6px 0 var(--pink-200);
+    font-family:'Caveat', cursive;
+    color:var(--pink-700);
+    font-size:22px;
+    line-height:1.25;
+  }
+  .quote::before{
+    content:"♡";
+    position:absolute; left:-14px; top:-14px;
+    width:28px; height:28px;
+    background:var(--pink-500); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:50%;
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-size:14px;
+  }
+  .quote .who{
+    display:block; margin-top:6px;
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-size:11px;
+    color:var(--ink-2);
+    letter-spacing:.04em;
+    text-transform:uppercase;
+  }
+
+  .speech-block{
+    margin:6px 0 8px;
+  }
+  .speech-block .speech{
+    margin:0;
+  }
+  .speech-block .avatar-wrap{
+    display:flex;
+    justify-content:flex-start;
+    padding-left:14px;
+    margin-top:14px;
+  }
+  .speech-block.right .avatar-wrap{
+    justify-content:flex-end;
+    padding-left:0;
+    padding-right:16px;
+  }
+  .speech-block .avatar{
+    width:32mm;
+    display:block;
+  }
+
+  .speech{
+    position:relative;
+    background:#fff;
+    border:2.5px solid var(--pink-500);
+    border-radius:18px;
+    padding:14px 18px;
+    margin:6px 0 12px;
+    box-shadow: 0 4px 0 var(--pink-200);
+  }
+  .speech::after{
+    content:"";
+    position:absolute; left:36px; bottom:-12px;
+    width:20px; height:20px;
+    background:#fff;
+    border-right:2.5px solid var(--pink-500);
+    border-bottom:2.5px solid var(--pink-500);
+    transform:rotate(45deg);
+  }
+
+  .stat-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:10px;
+    margin:6px 0 12px;
+  }
+  .stat{
+    background:#fff;
+    border:2.5px solid var(--pink-500);
+    box-shadow: 4px 4px 0 var(--pink-200);
+    padding:10px 12px;
+  }
+  .stat .label{
+    font-family:'VT323', monospace;
+    font-size:14px; color:var(--pink-700);
+    text-transform:uppercase; letter-spacing:.08em;
+  }
+  .stat .num{
+    font-family:'Mochiy Pop One', system-ui;
+    color:var(--pink-700);
+    font-size:22px;
+    line-height:1.1;
+    margin-top:2px;
+  }
+  .stat .sub{
+    font-size:10px; color:var(--ink-2); margin-top:2px;
+  }
+
+  /* Image plate */
+  .plate{
+    background:#fff;
+    border:3px solid var(--pink-500);
+    box-shadow: 6px 6px 0 var(--pink-200);
+    padding:8px 8px 0;
+    margin:6px 0 4px;
+    position:relative;
+  }
+  .plate img{ width:100%; display:block; height:auto; }
+  .plate .cap{
+    font-family:'VT323', monospace;
+    background:var(--pink-500);
+    color:#fff;
+    margin:0 -8px 0;
+    padding:5px 12px 6px;
+    font-size:16px;
+    letter-spacing:.05em;
+    display:flex; align-items:center; gap:8px;
+  }
+  .plate .cap::before{ content:"📌"; font-size:14px; }
+  .caption{
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-size:9.5pt;
+    color:var(--ink-2);
+    font-style:italic;
+    line-height:1.4;
+    margin:6px 2px 12px;
+    text-wrap:pretty;
+  }
+
+  /* Comments sidebar */
+  .comments{
+    position:absolute;
+    right:8mm; top:60px;
+    width:38mm;
+    background:#fff;
+    border:2.5px solid var(--pink-500);
+    box-shadow: 4px 4px 0 var(--pink-200);
+    z-index:3;
+    font-size:9.4pt;
+  }
+  .comments .head{
+    background:var(--pink-500);
+    color:#fff;
+    padding:5px 8px;
+    font-family:'VT323', monospace;
+    font-size:14px;
+    letter-spacing:.06em;
+    display:flex; align-items:center; gap:6px;
+  }
+  .comments .head::before{ content:"💬"; font-size:11px; }
+  .comments ul{ list-style:none; padding:6px 8px 8px; margin:0; }
+  .comments li{
+    padding:5px 0; border-bottom:1px dashed #ffd0dd;
+    display:flex; gap:6px; align-items:flex-start;
+    font-size:8.6pt; line-height:1.35;
+    color:var(--ink);
+  }
+  .comments li:last-child{border-bottom:none}
+  .comments .av{
+    width:14px; height:14px; border-radius:50%; flex-shrink:0;
+    margin-top:2px;
+  }
+  .comments .u{ font-weight:700; color:var(--pink-700); }
+
+  /* Two column layout helper */
+  .cols-2{
+    column-count:2;
+    column-gap:18px;
+    column-rule:1px dashed #ffc6d6;
+  }
+  .cols-2 p{ break-inside:avoid-column; }
+
+  /* Decorative bits */
+  .sparkle{
+    position:absolute;
+    color:var(--pink-500);
+    font-family:'Mochiy Pop One', system-ui;
+    pointer-events:none;
+    user-select:none;
+    z-index:1;
+  }
+
+  .badge-pixel{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'VT323', monospace;
+    background:#fff;
+    border:2px solid var(--pink-500);
+    color:var(--pink-700);
+    padding:2px 8px;
+    font-size:14px;
+    letter-spacing:.06em;
+    box-shadow:3px 3px 0 var(--pink-200);
+  }
+
+  /* Cover specific */
+  .cover-tag{
+    display:flex; gap:10px; align-items:center;
+    margin-bottom:10px;
+  }
+  .cover-hero{
+    margin-top:18px;
+    position:relative;
+    background:linear-gradient(180deg, #ffd1de 0%, #ffb8cd 100%);
+    border:3px solid var(--pink-700);
+    box-shadow: 8px 8px 0 var(--pink-300);
+    padding:28px 30px 26px;
+    overflow:hidden;
+  }
+  .cover-hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 18% 20%, #fff 0 8px, transparent 9px),
+      radial-gradient(circle at 86% 14%, #fff 0 5px, transparent 6px),
+      radial-gradient(circle at 70% 78%, #fff 0 10px, transparent 11px),
+      radial-gradient(circle at 8% 84%, #fff 0 6px, transparent 7px),
+      repeating-linear-gradient(45deg, rgba(255,255,255,.18) 0 2px, transparent 2px 16px);
+    opacity:.55;
+    pointer-events:none;
+  }
+  .cover-hero .meta-row{
+    display:flex; gap:8px; flex-wrap:wrap;
+    margin-bottom:14px;
+    position:relative;
+    z-index:2;
+  }
+  .cover-hero .meta-row .badge-pixel{ background:#fff; }
+  .cover-hero h1.hero{ position:relative; z-index:2; }
+  .cover-hero .byline{
+    position:relative; z-index:2;
+    margin-top:14px;
+    font-family:'VT323', monospace;
+    font-size:18px;
+    color:#7a2848;
+    letter-spacing:.06em;
+  }
+  .cover-bottom{
+    margin-top:18px;
+    display:flex;
+    gap:14px;
+    align-items:stretch;
+  }
+  .cover-bottom .lede-box{
+    flex:1;
+    background:#fff;
+    border:3px solid var(--pink-500);
+    box-shadow: 6px 6px 0 var(--pink-200);
+    padding:18px 20px;
+  }
+  .cover-bottom .lede-box p{ margin:0; }
+  .cover-bottom .side{
+    width:62mm;
+    background:#fff;
+    border:3px solid var(--pink-500);
+    box-shadow: 6px 6px 0 var(--pink-200);
+    padding:14px 14px 12px;
+    font-family:'VT323', monospace;
+    font-size:15px;
+    color:var(--ink);
+    line-height:1.4;
+  }
+  .cover-bottom .side b{
+    color:var(--pink-700);
+    font-family:'Mochiy Pop One', system-ui;
+    font-weight:400;
+    font-size:16px;
+    display:block;
+    margin-bottom:6px;
+    letter-spacing:.04em;
+  }
+  .cover-bottom .side ul{ margin:0; padding-left:18px; }
+  .cover-bottom .side li{ margin:2px 0; }
+
+  .corner-art{
+    position:absolute;
+    z-index:1;
+    pointer-events:none;
+  }
+
+  /* pixel cat icon */
+  .pixcat{
+    width:34px; height:34px;
+    display:inline-block;
+    image-rendering:pixelated;
+  }
+
+  /* Marquee-style ribbon */
+  .ribbon{
+    background:repeating-linear-gradient(90deg, var(--pink-500) 0 18px, #ec4d7c 18px 36px);
+    color:#fff;
+    font-family:'VT323', monospace;
+    font-size:18px;
+    letter-spacing:.18em;
+    padding:5px 10px;
+    text-transform:uppercase;
+    text-shadow:1px 1px 0 #7a2848;
+    margin:0 -22mm;
+    padding-left:22mm; padding-right:22mm;
+  }
+
+  /* Number circle for sections */
+  .scenecard{
+    display:flex; align-items:center; gap:12px;
+    margin-bottom:8px;
+  }
+  .scenecard .num{
+    width:54px; height:54px;
+    background:var(--pink-500); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Mochiy Pop One', system-ui;
+    font-size:28px;
+    box-shadow: 4px 4px 0 var(--pink-200);
+    border:3px solid var(--pink-700);
+  }
+
+  /* PRINT */
+  @page{ size: A4; margin:0; }
+  html, body{ -webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; }
+  *{ -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @media print{
+    body{ background:#fff; padding:0; }
+    .page{
+      margin:0;
+      box-shadow:none;
+      border-radius:0;
+      page-break-after:always;
+      break-after:page;
+    }
+    .page:last-child{ page-break-after:auto; }
+  }
+
+  /* Toolbar (screen only) */
+  .toolbar{
+    position:fixed; right:18px; top:18px;
+    background:#fff;
+    border:2.5px solid var(--pink-500);
+    box-shadow:4px 4px 0 var(--pink-200);
+    padding:8px 12px;
+    font-family:'VT323', monospace;
+    color:var(--pink-700);
+    font-size:16px;
+    letter-spacing:.05em;
+    z-index:99;
+    cursor:pointer;
+    user-select:none;
+  }
+  .toolbar:hover{ background:var(--pink-50); }
+  @media print{ .toolbar{display:none} }
+
+  .footer-credit{
+    position:absolute; left:22mm; bottom:62px;
+    font-family:'VT323', monospace;
+    font-size:14px;
+    color:var(--pink-700);
+    letter-spacing:.06em;
+    opacity:.7;
+  }
+</style>
+<style data-id="immersive-translate-input-injected-css"></style></head>
+<body style="">
+<div class="toolbar" onclick="window.print()">⌘ Print / Save as PDF</div>
+
+<!-- =====================================================================
+     PAGE 1 — COVER
+     ===================================================================== -->
+<section class="page" data-screen-label="01 Cover">
+  <div class="winbar">
+    <span class="title">♡ vtuber.diary — issue_01.DAT</span>
+    <span class="right">
+      <span class="pixbtn">_</span><span class="pixbtn">▢</span><span class="pixbtn">✕</span>
+    </span>
+  </div>
+
+  <span class="sparkle" style="left:18mm; top:48mm; font-size:30px;">✦</span>
+  <span class="sparkle" style="right:14mm; top:90mm; font-size:22px;">♡</span>
+  <span class="sparkle" style="left:36mm; bottom:120mm; font-size:18px;">✧</span>
+
+  <div class="body">
+    <div class="cover-tag">
+      <span class="badge-pixel">♥ LONG READ</span>
+      <span class="badge-pixel">SCENE 01 / 08</span>
+      <span class="badge-pixel">EST.READ 12 MIN</span>
+    </div>
+
+    <div class="cover-hero">
+      <div class="meta-row">
+        <span class="badge-pixel">#VTUBER</span>
+        <span class="badge-pixel" style="">#STREAMING</span>
+        <span class="badge-pixel">#PARASOCIAL</span>
+      </div>
+      <h1 class="hero">
+        Below the<br>
+        <span class="pink">Concert</span><span style="color:var(--pink-700)">.</span>
+      </h1>
+      <h1 class="hero" style="font-size:30px; margin-top:14px; color:#7a2848;">
+        When a VTuber's audience is <em>thirty</em> people.
+      </h1>
+      <div class="byline">★ A REPORT FROM THE SMALL ROOMS &nbsp;|&nbsp; JOUR2006 · A3</div>
+    </div>
+
+    <div class="cover-bottom">
+      <div class="lede-box">
+        <p class="lede dropcap">The global VTuber market is forecast to reach <b style="color:var(--pink-700)">USD 13.62 billion</b> by 2033, built on the parasocial bonds between distant idols and millions of fans. But the most intense version of that bond may happen far below the radar of any market forecast — in single rented rooms, between streamers and audiences small enough to know each other by name.</p>
+      </div>
+      <div class="side">
+        <b>// INSIDE</b>
+        <ul>
+          <li>Marshmallow Ame</li>
+          <li style="list-style:none; padding-left:14px; color:var(--pink-600); font-size:13px; margin-top:-2px;">↳ 7:30pm everyday</li>
+          <li>The 30-viewer paradox</li>
+          <li>Chobits live agency</li>
+          <li>Graduation, quietly</li>
+          <li>Tomorrow, 7:30 again</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-credit">FILE: below_the_concert.DAT &nbsp;·&nbsp; 2026.05</div>
+
+  <div class="livebar">
+    <div class="rec"><span class="dotred"></span> REC · LIVE</div>
+    <div class="meta">
+      <span class="chip">60.00</span>
+      <span class="chip">FADE</span>
+      <span class="chip">SCENE 01</span>
+      <span class="chip">MIC : AUX1</span>
+    </div>
+    <div class="progress">
+      <div class="label">STREAM PROGRESS · COVER</div>
+      <div class="track"><i style="width:12%"></i></div>
+    </div>
+    <div class="pageno">1 / 8</div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     PAGE 2 — OPENING SCENE
+     ===================================================================== -->
+<section class="page" data-screen-label="02 Opening scene">
+  <div class="winbar">
+    <span class="title">scene_01_opening.DAT</span>
+    <span class="right">
+      <span class="pixbtn">_</span><span class="pixbtn">▢</span><span class="pixbtn">✕</span>
+    </span>
+  </div>
+
+  <span class="sparkle" style="right:24mm; top:48mm; font-size:24px;">✧</span>
+  <span class="sparkle" style="left:14mm; bottom:120mm; font-size:18px;">♡</span>
+
+  <div class="body">
+    <div class="scenecard">
+      <div class="num">01</div>
+      <div>
+        <span class="section-kicker">scene one</span>
+        <h2 class="section">A pink-and-white cat girl, 7:30pm</h2>
+      </div>
+    </div>
+
+    <p class="dropcap">It is 7:30 on a Tuesday evening when the pink-and-white cat girl appears on screen. She wears a pink night dress, has fluffy ears that tilt when she listens, and answers to the name <b style="color:var(--pink-700)">Marshmallow Ame</b>. Within seconds of her stream starting, twenty-five to thirty-five familiar usernames are typing greetings. <i>Drink water tonight. Don't stream too late.</i> She knows them by handle. She greets them back.</p>
+
+    <p>The 27-year-old person behind Marshmallow Ame is in her mid-twenties. She designed the avatar herself, then asked a friend who paints to refine the sketches. The character is meant, she said in Mandarin, to feel like being wrapped in a warm blanket — soft voice, sweet tooth, head tilted toward whoever is speaking. The bravery, though, is borrowed from elsewhere.</p>
+
+    <div class="quote">
+      "She'll say things in the stream that I would never say to a stranger in real life. She'll tell people, <i>fine, we can just take it easy</i>. I can't always say that. But she can."
+      <span class="who">— Marshmallow Ame, on the avatar she designed herself</span>
+    </div>
+
+    <p>She started streaming in late 2023, in a single rented room in a city where she had moved for a corporate job after university. Her parents wanted her to sit civil-service exams. She wanted, she said, to find people who liked the things she liked, in a face that wouldn't be disliked. For the first months she doubted herself daily. <span style="color:var(--pink-700); font-weight:600;">"I just wanted to try. At least if I tried, I wouldn't regret it."</span></p>
+
+    <p>She streams three or four nights a week. The regulars — about thirty of them — show up almost exactly on time.</p>
+
+    <div class="speech-block">
+      <div class="speech">
+        <p style="margin:0; font-family:'Caveat',cursive; font-size:21px; line-height:1.3; color:var(--pink-700);">
+          "Each time I open the stream, the familiar profile pictures light up one after another. Really like family."
+        </p>
+      </div>
+      <div class="avatar-wrap" style="margin-top:0;">
+        <img class="avatar" src="assets/vtuber_screen.png" alt="VTuber stream window" style="width:30mm;">
+      </div>
+    </div>
+
+    <div class="stat-grid" style="margin-top:auto;">
+      <div class="stat">
+        <div class="label">Avg. concurrent</div>
+        <div class="num">25 – 35</div>
+        <div class="sub">named regulars</div>
+      </div>
+      <div class="stat">
+        <div class="label">Cadence</div>
+        <div class="num">3 – 4 nights</div>
+        <div class="sub">per week, 7:30pm</div>
+      </div>
+      <div class="stat">
+        <div class="label">Debut</div>
+        <div class="num">Late 2023</div>
+        <div class="sub">solo, rented room</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="livebar">
+    <div class="rec"><span class="dotred"></span> REC · LIVE</div>
+    <div class="meta">
+      <span class="chip">60.00</span><span class="chip">FADE</span><span class="chip">SCENE 02</span><span class="chip">MIC : AUX1</span>
+    </div>
+    <div class="progress">
+      <div class="label">STREAM PROGRESS · OPENING</div>
+      <div class="track"><i style="width:25%"></i></div>
+    </div>
+    <div class="pageno">2 / 8</div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     PAGE 3 — THE SMALL ROOM PARADOX
+     ===================================================================== -->
+<section class="page" data-screen-label="03 Small room paradox">
+  <div class="winbar">
+    <span class="title">scene_02_paradox.DAT</span>
+    <span class="right">
+      <span class="pixbtn">_</span><span class="pixbtn">▢</span><span class="pixbtn">✕</span>
+    </span>
+  </div>
+
+  <span class="sparkle" style="right:18mm; top:80mm; font-size:26px;">✦</span>
+
+  <div class="body">
+    <div class="scenecard">
+      <div class="num">02</div>
+      <div>
+        <span class="section-kicker">scene two</span>
+        <h2 class="section">The small room paradox</h2>
+      </div>
+    </div>
+
+    <p>The standard story about VTubers — the one that has reached English-language press — is about anonymity as <i>distance</i>. The animated avatar, the voice changing, the <b>nakanohito</b> (the "person inside") whose real face viewers will never see: these create the conditions for what media researchers call <b style="color:var(--pink-700)">parasocial relationships</b>, one-way bonds with figures who do not know their fans exist.</p>
+
+    <p>A 2025 study presented at <b>CHI</b>, the field's main academic conference, analyzed 13,655 Reddit posts about VTuber retirements and found that fans grieved with reactions strikingly similar to bereavement — shock, numbness, and loyalty that persisted long after the streamer had gone.</p>
+
+    <p>But that research was built on the biggest names — performers whose final streams drew over half a million concurrent viewers. At Marshmallow Ame's scale, the equation inverts.</p>
+
+    <p>Her thirty regulars know her stream times. They know which games make her laugh. The avatar is not creating <i>distance</i>. It is creating, paradoxically, the permission to come <span style="color:var(--pink-700); font-weight:700;">close</span>.</p>
+
+    <div class="plate short" style="margin-top: 4px;">
+      <img src="assets/chart.png" alt="VTuber market snapshot 2026–2033">
+      <div class="cap">DATA INSERT · MARKET SNAPSHOT 2026-2033</div>
+    </div>
+    <p class="caption" style="margin-bottom:0;">The expected increase of VTuber market size from 2025 to 2032, based on data from 2023. <b>Source:</b> SkyQuest.</p>
+  </div>
+
+  <div class="livebar">
+    <div class="rec"><span class="dotred"></span> REC · LIVE</div>
+    <div class="meta">
+      <span class="chip">60.00</span><span class="chip">CUT</span><span class="chip">SCENE 03</span><span class="chip">MIC : AUX1</span>
+    </div>
+    <div class="progress">
+      <div class="label">STREAM PROGRESS · PARADOX</div>
+      <div class="track"><i style="width:38%"></i></div>
+    </div>
+    <div class="pageno">3 / 8</div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     PAGE 4 — MR HE & THE FANS
+     ===================================================================== -->
+<section class="page" data-screen-label="04 Mr He">
+  <div class="winbar">
+    <span class="title">scene_03_viewers.DAT</span>
+    <span class="right">
+      <span class="pixbtn">_</span><span class="pixbtn">▢</span><span class="pixbtn">✕</span>
+    </span>
+  </div>
+
+  <!-- COMMENTS SIDEBAR overlapping the right margin -->
+  <aside class="comments" style="top:120px;">
+    <div class="head">COMMENTS · LIVE</div>
+    <ul>
+      <li><span class="av" style="background:#ffb8cd"></span><div><span class="u">asdfg:</span> 美少女堂堂上播！！</div></li>
+      <li><span class="av" style="background:#9ee2cf"></span><div><span class="u">叙拉古马路:</span> 小U冲啊！！</div></li>
+      <li><span class="av" style="background:#ffd566"></span><div><span class="u">酗酒警探:</span> 随便点进来看看</div></li>
+      <li><span class="av" style="background:#ff86a8"></span><div><span class="u">BIUBIU:</span> 这不那个谁吗，几个月不见怎么来直播了</div></li>
+      <li><span class="av" style="background:#ffc6d6"></span><div><span class="u">爱U:</span> 来了来了 🥺</div></li>
+      <li><span class="av" style="background:#c5b9ff"></span><div><span class="u">乌乌和章章:</span> 我是第一吗</div></li>
+      <li><span class="av" style="background:#ff6b96"></span><div><span class="u">番茄狸猫:</span> xs 尬起来了</div></li>
+      <li><span class="av" style="background:#9ee2cf"></span><div><span class="u">大剑人:</span> 一种很新的播法</div></li>
+      <li><span class="av" style="background:#ffd566"></span><div><span class="u">叙拉古马路:</span> 什么翻车大王</div></li>
+      <li><span class="av" style="background:#ffb8cd"></span><div><span class="u">橙色电风扇:</span> 下次准备好再来吧（还有下次吗</div></li>
+    </ul>
+  </aside>
+
+  <div class="body" style="right:48mm;">
+    <span class="section-kicker">interview · fan</span>
+    <h2 class="section" style="margin-bottom:14px;">Mr He, 22, calls himself a DD.</h2>
+
+    <p>One of Marshmallow Ame's regulars, <b>Mr He</b>, 22 years old, described himself as a <b style="color:var(--pink-700)">DD</b> — a fan who watches "anyone and everyone." But he was specific about why he ends up sitting in small streams.</p>
+
+    <div class="quote">
+      "Giving small VTubers gifts has <u>real</u> emotional value. And because there aren't too many people, you won't get ignored."
+      <span class="who">— Mr He, 22, fan</span>
+    </div>
+
+    <p>Asked why he stays in any particular streamer's room, he was less able to explain. <i>"Maybe I just like the personality,"</i> he said. <i>"I'm a bit of a dead-inside type. Watching this kind of person feels more comfortable."</i></p>
+
+    <p>He keeps contact through Bilibili private messages and one QQ fan group, and only there. He has a rule he calls his "experience."</p>
+
+    <div class="speech-block">
+      <div class="speech" style="font-weight: 400;">
+        <p style="margin: 0px; font-family: Caveat, cursive; font-size: 22px; line-height: 1.3; color: var(--pink-700); font-weight: 400;">
+          "My experience is: don't get too close. When she leaves, it won't hurt as much."
+        </p>
+      </div>
+      <div class="avatar-wrap">
+        <img class="avatar" src="assets/fan_he.png" alt="Mr He, illustrated" style="width:30mm;">
+      </div>
+    </div>
+
+    <p style="margin-top:14px;">It is a sentence that contains the whole shape of the room: a fan who knows, before the avatar has even sung its first farewell, that one day the avatar will stop. He stays anyway. He gifts anyway. He just keeps the screen between himself and the loss.</p>
+  </div>
+
+  <div class="livebar">
+    <div class="rec"><span class="dotred"></span> REC · LIVE</div>
+    <div class="meta">
+      <span class="chip">60.00</span><span class="chip">FADE</span><span class="chip">SCENE 04</span><span class="chip">MIC : AUX1</span>
+    </div>
+    <div class="progress">
+      <div class="label">STREAM PROGRESS · VIEWERS</div>
+      <div class="track"><i style="width:50%"></i></div>
+    </div>
+    <div class="pageno">4 / 8</div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     PAGE 5 — THE VIEW FROM THE AGENCIES
+     ===================================================================== -->
+<section class="page" data-screen-label="05 Agencies">
+  <div class="winbar">
+    <span class="title">scene_04_agencies.DAT</span>
+    <span class="right">
+      <span class="pixbtn">_</span><span class="pixbtn">▢</span><span class="pixbtn">✕</span>
+    </span>
+  </div>
+
+  <span class="sparkle" style="right:14mm; top:62mm; font-size:24px;">✦</span>
+
+  <div class="body">
+    <div class="scenecard">
+      <div class="num">03</div>
+      <div>
+        <span class="section-kicker">scene three</span>
+        <h2 class="section">The view from the agencies</h2>
+      </div>
+    </div>
+
+    <p class="dropcap">I have watched VTubers for nearly a decade, and once tried streaming as one myself. The thing nobody tells you is how the smallness of the audience reshapes everything. <b>A room of thirty does not behave like a room of three thousand.</b></p>
+
+    <p>The Chinese VTuber industry is, however, increasingly run by people who think in thousands. In Tokyo, <b>Cover Corp</b>, the parent company of Hololive (the world's largest VTuber agency), posted record income of ¥43.4 billion in the 2025 financial year — a 44 per cent increase. Its concerts alone drew more than 520,000 visitors. Its closest rival, <b>Anycolor</b>, parent of Nijisanji, came in just behind at ¥42.9 billion.</p>
+
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="label">Cover Corp · '25</div>
+        <div class="num">¥43.4B</div>
+        <div class="sub">+44% YoY · Hololive</div>
+      </div>
+      <div class="stat">
+        <div class="label">Anycolor · '25</div>
+        <div class="num">¥42.9B</div>
+        <div class="sub">Nijisanji</div>
+      </div>
+      <div class="stat">
+        <div class="label">Hololive concerts</div>
+        <div class="num">520,000+</div>
+        <div class="sub">visitors</div>
+      </div>
+    </div>
+
+    <p>According to 2023 data from the industry-research organisation <b>SkyQuest</b>, the global VTuber market is expected to grow sharply, from <b style="color:var(--pink-700)">USD 3.06 billion in 2025</b> to <b style="color:var(--pink-700)">USD 13.62 billion in 2033</b>, with a compound rate of 20.5 per cent a year. The Asia-Pacific region — mainly East Asia (China, Japan, South Korea) and Southeast Asia (Indonesia, Malaysia, Singapore) — accounts for about two-thirds of the revenue.</p>
+
+    <div class="quote" style="font-family:'Plus Jakarta Sans'; font-style:italic; font-size:13.5px; line-height:1.5;">
+      "The agencies that serve the Chinese-language part of that market mostly do not look like Cover."
+      <span class="who">— observation, from inside the scene</span>
+    </div>
+
+    <p>One of them is <b>Chobits live</b>, a small multi-language VTuber agency co-founded in the waves of the 2020–2021 Bilibili VTuber boom in China. A staff member, who asked not to be named, said the company currently has <b style="color:var(--pink-700)">six</b> active talents.</p>
+
+    <div class="speech-block">
+      <div class="speech">
+        <p style="margin:0; font-family:'Caveat',cursive; font-size:21px; line-height:1.3; color:var(--pink-700);">
+          "We're a typical small-and-fine style. We don't chase numbers. We chase each person's long-term, healthy development."
+        </p>
+      </div>
+      <div class="avatar-wrap">
+        <img class="avatar" src="assets/manager_bust.png" alt="Chobits live staff, illustrated" style="width: 120.938px">
+      </div>
+    </div>
+  </div>
+
+  <div class="livebar">
+    <div class="rec"><span class="dotred"></span> REC · LIVE</div>
+    <div class="meta">
+      <span class="chip">60.00</span><span class="chip">CUT</span><span class="chip">SCENE 05</span><span class="chip">MIC : AUX1</span>
+    </div>
+    <div class="progress">
+      <div class="label">当前 STREAM PROGRESS · AGENCIES</div>
+      <div class="track"><i style="width:62%"></i></div>
+    </div>
+    <div class="pageno">5 / 8</div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     PAGE 6 — AGENCIES CONT'D + STREAM ROOM REFERENCE
+     ===================================================================== -->
+<section class="page" data-screen-label="06 Agencies cont">
+  <div class="winbar">
+    <span class="title">scene_04b_independence.DAT</span>
+    <span class="right">
+      <span class="pixbtn">_</span><span class="pixbtn">▢</span><span class="pixbtn">✕</span>
+    </span>
+  </div>
+
+  <div class="body">
+    <span class="section-kicker">interview · agency</span>
+    <h2 class="section" style="margin-bottom:14px;">Small and fine, vs. running it alone</h2>
+
+    <p>He watched, he said, too many independent streamers in the boom years burn out at fifty to a hundred viewers because "they didn't know how to negotiate sponsorships, didn't know how to handle fan conflicts, and when something broke on the stream, nobody could fix it." His company exists, in his telling, as a safety net.</p>
+
+    <div class="quote" style="font-size:18px;">
+      "Most independent streamers eventually burn out. But the top independent ones — those who run themselves — can do better than people in mid-tier agencies. There is no absolute answer."
+      <span class="who">— CHOBITS LIVE STAFF</span>
+    </div>
+
+    <div class="plate shortest" style="">
+      <img src="assets/streamroom.png" alt="A stream-room layout style for VTubers">
+      <div class="cap">REF · STREAM-ROOM LAYOUT, ARKNIGHTS</div>
+    </div>
+    <p class="caption">A Stream Room Layout style for VTubers. <b>Arknights</b>. Hypergryph. Bilibili. 白鸟Asuta_Channel.</p>
+
+    <p style="margin-top:2px;">Another independent streamer, when asked what had surprised him most about the work, gave a simpler answer.</p>
+
+    <p>"Honestly, the broadcast length. When I was just watching, I didn't think it took this much time. Now I'm streaming three or four hours — it can feel long."</p>
+
+    <p style="margin-bottom:0;">Asked whether what he does and what the agency-signed stars do are the same job, he was direct. <i>"Of course not. The bottom and the top both look like Live2D streams, but they have almost nothing in common."</i></p>
+  </div>
+
+  <div class="livebar">
+    <div class="rec"><span class="dotred"></span> REC · LIVE</div>
+    <div class="meta">
+      <span class="chip">60.00</span><span class="chip">FADE</span><span class="chip">SCENE 06</span><span class="chip">MIC : AUX1</span>
+    </div>
+    <div class="progress">
+      <div class="label">STREAM PROGRESS · INDEPENDENCE</div>
+      <div class="track"><i style="width:75%"></i></div>
+    </div>
+    <div class="pageno">6 / 8</div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     PAGE 7 — STOPPING IS QUIETER AT THIS SCALE
+     ===================================================================== -->
+<section class="page" data-screen-label="07 Stopping is quieter">
+  <div class="winbar">
+    <span class="title">scene_05_graduation.DAT</span>
+    <span class="right">
+      <span class="pixbtn">_</span><span class="pixbtn">▢</span><span class="pixbtn">✕</span>
+    </span>
+  </div>
+
+  <span class="sparkle" style="left:14mm; top:80mm; font-size:24px;">♡</span>
+  <span class="sparkle" style="right:18mm; bottom:110mm; font-size:20px;">✦</span>
+
+  <div class="body">
+    <div class="scenecard">
+      <div class="num">04</div>
+      <div>
+        <span class="section-kicker">scene four</span>
+        <h2 class="section">Stopping is quieter at this scale</h2>
+      </div>
+    </div>
+
+    <p class="lede" style="color:var(--pink-700); font-weight:600;">When the biggest VTubers retire, they do it in front of half a million people. When the small ones stop, almost no one notices.</p>
+
+    <p>A former independent streamer, who ended her run at the close of 2024, described it in two sentences. <i>"It was always a struggle. I had a full-time job, and the part-time streaming had started affecting my main work without producing results."</i> Her boss had warned her at the office. That evening, she went on stream and felt, she said, like she was forcing a smile.</p>
+
+    <p>She held a <b style="color:var(--pink-700)">graduation broadcast</b> — the standard farewell ritual in Chinese-language VTuber circles. She did not upload the recording.</p>
+
+    <div class="quote">
+      "I was afraid Bilibili's <i>grand funeral</i> mechanic would talk me out of it."
+      <span class="who">— A former independent streamer, late 2024</span>
+    </div>
+
+    <p style="font-size:9.6pt; color:var(--ink-2); margin-top:-4px;">The phrase, untranslatable cleanly, refers to the platform's habit of pushing a retiring streamer's farewell video a huge traffic boost — memorialising them in a way that can pull them back.</p>
+
+    <p>She kept the avatar. <i>"It's still with me. If I run short on money one day, I might sell it."</i> Asked whether she still thinks about the character, she paused.</p>
+
+    <div class="speech-block">
+      <div class="speech">
+        <p style="margin:0; font-family:'Caveat',cursive; font-size:22px; line-height:1.3; color:var(--pink-700);">
+          "Sometimes. It is a form I put my own effort into."
+        </p>
+      </div>
+      <div class="avatar-wrap" style="margin-top:4px;">
+        <img class="avatar" src="assets/streamer_girl.png" alt="Former streamer, illustrated" style="width:24mm;">
+      </div>
+    </div>
+
+    <p>She does not compare any of this to the industry-level events that English-language press covers.</p>
+
+    <p style="font-style:italic; color:var(--pink-700);">"My stopping was normal. I just couldn't keep going. I love my fans, but I couldn't give them enough emotional value."</p>
+  </div>
+
+  <div class="livebar">
+    <div class="rec"><span class="dotred"></span> REC · LIVE</div>
+    <div class="meta">
+      <span class="chip">60.00</span><span class="chip">FADE</span><span class="chip">SCENE 07</span><span class="chip">MIC : AUX1</span>
+    </div>
+    <div class="progress">
+      <div class="label">STREAM PROGRESS · GRADUATION</div>
+      <div class="track"><i style="width:88%"></i></div>
+    </div>
+    <div class="pageno">7 / 8</div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     PAGE 8 — THE SMALL ROOM, TOMORROW
+     ===================================================================== -->
+<section class="page" data-screen-label="08 Tomorrow">
+  <div class="winbar">
+    <span class="title">scene_06_tomorrow.DAT</span>
+    <span class="right">
+      <span class="pixbtn">_</span><span class="pixbtn">▢</span><span class="pixbtn">✕</span>
+    </span>
+  </div>
+
+  <span class="sparkle" style="left:20mm; top:60mm; font-size:22px;">♡</span>
+  <span class="sparkle" style="right:24mm; top:90mm; font-size:18px;">✧</span>
+  <span class="sparkle" style="left:28mm; bottom:120mm; font-size:26px;">✦</span>
+
+  <div class="body">
+    <div class="scenecard">
+      <div class="num">05</div>
+      <div>
+        <span class="section-kicker">final scene</span>
+        <h2 class="section">The small room, tomorrow</h2>
+      </div>
+    </div>
+
+    <div class="plate shortest" style="margin-top: 4px;">
+      <img src="assets/desk.jpeg" alt="A VTuber's streaming desk">
+      <div class="cap">B-ROLL · THE USUAL DESKTOP</div>
+    </div>
+    <p class="caption">The usual desktop when streaming — headphones, condenser microphone, and the iPhone required for face-capture via Apple FaceID. <b>Photo:</b> Zhang Jinghao.</p>
+
+    <p>Tomorrow night, at 7:30, Marshmallow Ame will appear again. Twenty-five regulars will type <i>drink water</i> and <i>don't stream too late</i>. She will tilt her head when they speak. None of it will move a market forecast. None of it will be measured.</p>
+
+    <div class="quote" style="margin-top:6px; font-size:19px; line-height:1.3;">
+      "The most important thing is to keep this heart — the one that still wants to connect with people, still wants to glow. <b style="color:var(--pink-600); font-family:'Mochiy Pop One';">You deserve to be loved.</b>"
+      <span class="who">— Marshmallow Ame, to her three-years-younger self</span>
+    </div>
+
+    <p style="text-align:center; font-family:'Mochiy Pop One', system-ui; color:var(--pink-700); font-size:16px; margin-top:8px;">
+      The room is small enough that the distinction has stopped mattering.
+    </p>
+
+    <div style="margin-top:auto; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+      <span class="badge-pixel" style="background:var(--pink-500); color:#fff;">— FIN —</span>
+      <span style="font-family:'VT323',monospace; font-size:13px; color:var(--pink-700); letter-spacing:.06em;">
+        JOUR2006 · A3 · vtuber.diary · ISSUE 01
+      </span>
+      <span class="badge-pixel">♡ thank you</span>
+    </div>
+  </div>
+
+  <div class="livebar">
+    <div class="rec"><span class="dotred"></span> END · STREAM</div>
+    <div class="meta">
+      <span class="chip">00.00</span><span class="chip">FADE OUT</span><span class="chip">SCENE 08</span><span class="chip">MIC : OFF</span>
+    </div>
+    <div class="progress">
+      <div class="label">STREAM PROGRESS · COMPLETE</div>
+      <div class="track"><i style="width:100%"></i></div>
+    </div>
+    <div class="pageno">8 / 8</div>
+  </div>
+</section>
+
+<script>
+(async function(){
+  try{ if(document.fonts && document.fonts.ready) await document.fonts.ready; }catch(e){}
+  const imgs = Array.from(document.images);
+  await Promise.all(imgs.map(img => img.complete ? null : new Promise(res => {
+    img.addEventListener('load', res, {once:true});
+    img.addEventListener('error', res, {once:true});
+  })));
+  setTimeout(()=>window.print(), 500);
+})();
+</script>
+
+</body></html>
